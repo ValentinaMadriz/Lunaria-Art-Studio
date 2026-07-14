@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es-CR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Lunaria Art Studio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="galeria.css">
+    <!-- Iconos --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> 
+</head>
+
+<body>
+      <header>
+    <div class="container">
+        <p class="logo">Lunaria Art Studio</p>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="informacion.html">Información</a>
+            <a href="galeria.html">Galería</a>
+            <a href="simbolos.html">Símbolos</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+    </div>
+    </header>
+
+
+<section class="galeria">
+    <h5>⁠☆ Galería ⁠☆</h5>
+    <div>
+    <p1>ଘ( ･ω･)_/ﾟ･:*:･｡☆</p1>
+    </div>
+    <p class="descripcion">
+    Explora mi colección de ilustraciones. Escribe el nombre de una obra para encontrarla al instante. °❀⋆.ೃ࿔*:･
+    </p>
+    <div class="buscador">
+    <input 
+    type="text" 
+    id="buscador" 
+    placeholder="Buscar imagen..."
+>
+
+<button onclick="buscarImagen()">
+    <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+</div>
+
+<div id="resultados"></div>
+    <div class="resultados">
+        <div class="mensaje">
+            <i class="fa-regular fa-image"></i>
+            <h2>Todavía no has buscado ninguna ilustración.</h2>
+            <p>
+                Escribe el nombre de una ilustración para comenzar.
+            </p>
+        </div>
+</div>
+
+</section>
+
+
+
+<script>
+
+async function buscarImagen(){
+
+    const titulo = document.getElementById("buscador").value;
+
+
+    const respuesta = await fetch(
+        `http://localhost:3000/galeria/${titulo}`
+    );
+
+
+    const imagenes = await respuesta.json();
+
+
+    const resultados = document.getElementById("resultados");
+
+    resultados.innerHTML = "";
+
+
+    imagenes.forEach(img => {
+
+        resultados.innerHTML += `
+
+            <div class="tarjeta">
+
+                <h3>${img.titulo}</h3>
+
+                <p>${img.descripcion}</p>
+
+                <img 
+                src="data:image/jpeg;base64,${img.imagen}"
+                width="300"
+                >
+
+                <p>Categoría: ${img.categoria}</p>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+</script>
+    
+</body>
+</html>
