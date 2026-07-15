@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const { sql, config } = require("./db");
 
 const app = express();
@@ -7,17 +8,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, "../")));
 
 // Prueba de conexión
-app.get("/", async (req, res) => {
-    try {
-        await sql.connect(config);
-        res.send("✅ Backend conectado a SQL Server");
-    } catch(error) {
-        res.status(500).send(error.message);
-    }
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
-
 
 // Buscar imágenes por título
 app.get("/galeria/:titulo", async (req, res) => {
